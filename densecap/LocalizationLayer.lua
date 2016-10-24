@@ -285,7 +285,7 @@ function layer:_forward_test(input)
     local function clamp_data(data)
       -- data should be 1 x kHW x D
       -- valid is byte of shape kHW
-      assert(data:size(1) == 1, 'must have 1 image per batch')
+      --assert(data:size(1) == 1, 'must have 1 image per batch')
       assert(data:dim() == 3)
       local mask = valid:view(1, -1, 1):expandAs(data)
       return data[mask]:view(1, -1, data:size(3))
