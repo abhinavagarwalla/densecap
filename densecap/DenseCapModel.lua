@@ -298,9 +298,11 @@ function DenseCapModel:extractFeatures(input)
   local idx = box_utils.nms(boxes_scores, self.opt.final_nms_thresh)
 
   local boxes_xcycwh = final_boxes_float:index(1, idx):typeAs(self.output[4])
+  local boxes_sc = class_scores_float:index(1, idx):typeAs(self.output[1])
   local feats = self.nets.recog_base.output:float():index(1, idx):typeAs(self.output[4])
 
-  return boxes_xcycwh, feats
+  --print(boxes_sc)
+  return boxes_sc, feats
 end
 
 

@@ -38,9 +38,9 @@ local function run_image(model, img_path, opt, dtype)
   vgg_mean = vgg_mean:view(1, 3, 1, 1):expand(1, 3, H, W)
   img_caffe:add(-1, vgg_mean)
 
-  local boxes_xcycwh, feats = model:extractFeatures(img_caffe:type(dtype))
-  local boxes_xywh = box_utils.xcycwh_to_xywh(boxes_xcycwh)
-  return boxes_xywh, feats
+  local boxes_scores, feats = model:extractFeatures(img_caffe:type(dtype))
+  --local boxes_xywh = box_utils.xcycwh_to_xywh(boxes_xcycwh)
+  return boxes_scores, feats
 end
 
 
@@ -79,7 +79,7 @@ local function main()
   local N = #image_paths
   local M = opt.boxes_per_image
   local D = 4096 -- TODO this is specific to VG
-  local all_boxes = torch.FloatTensor(N, M, 4):zero()
+  local all_boxes = torch.FloatTensor(N, M, 1):zero()
   local all_feats = torch.FloatTensor(N, M, D):zero()
   
   -- Actually run the model
