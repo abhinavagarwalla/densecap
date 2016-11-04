@@ -1,5 +1,5 @@
-input_file="/home/abhinav/Desktop/VideoSummarization/data/input_list.txt"
-feat_dir="/home/abhinav/Desktop/VideoSummarization/data/y2t_features/"
+input_file="/home/bt0/12CS10045/VideoSummarization/data/input_list_0.txt"
+feat_dir="/home/bt0/12CS10045/VideoSummarization/data/y2t_features/"
 while read -r line
 do
 	outline="${line/list/features}"
