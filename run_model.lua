@@ -39,6 +39,7 @@ cmd:option('-input_image', '',
 cmd:option('-input_dir', '', 'A path to a directory with images to caption')
 cmd:option('-input_split', '',
   'A VisualGenome split identifier to process (train|val|test)')
+cmd:option('-input_list','', 'A list of images to caption')
 
 -- Only used when input_split is given
 cmd:option('-splits_json', 'info/densecap_splits.json')
@@ -127,6 +128,10 @@ function get_input_images(opt)
         table.insert(image_paths, img_in_path)
       end
     end
+  elseif opt.input_list ~= '' then
+    for line in io.lines(opt.input_list) do
+      table.insert(image_paths, line)
+    end
   elseif opt.input_split ~= '' then
     -- load json information that contains the splits information for VG
     local info = utils.read_json(opt.splits_json)
@@ -166,7 +171,7 @@ for k=1,num_process do
   if opt.output_dir ~= '' then
     local img_out = lua_render_result(result, opt)
     local img_out_path = paths.concat(opt.output_dir, paths.basename(img_path))
-    image.save(img_out_path, img_out)
+    --image.save(img_out_path, img_out)
   end
   if opt.output_vis == 1 then
     -- save the raw image to vis/data/
